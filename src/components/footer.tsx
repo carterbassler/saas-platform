@@ -1,3 +1,4 @@
+import { Link } from "next-view-transitions";
 import React from "react";
 
 type Props = {};
@@ -9,7 +10,7 @@ function Footer({}: Props) {
         <div className="max-w-7xl mx-auto text-sm text-neutral-500 dark:text-neutral-400 flex sm:flex-row flex-col justify-between items-start ">
           <div>
             <div className="mr-4  md:flex mb-4">
-              <a
+              <Link
                 className="font-normal flex space-x-2 items-center text-sm mr-4  text-black px-2 py-1  relative z-20"
                 href="/"
               >
@@ -17,47 +18,47 @@ function Footer({}: Props) {
                 <span className="font-medium text-black dark:text-white">
                   Insight Leads
                 </span>
-              </a>
+              </Link>
             </div>
             <div>Copyright © 2024 Insight Leads</div>
             <div className="mt-2">All rights reserved</div>
           </div>
           <div className="grid grid-cols-3 gap-10 items-start mt-10 md:mt-0">
             <div className="flex justify-center space-y-4 flex-col mt-4">
-              <a
+              <Link
                 className="transition-colors hover:text-black text-muted dark:text-muted-dark dark:hover:text-neutral-400 text-xs sm:text-sm"
                 href="/pricing"
               >
                 Pricing
-              </a>
-              <a
+              </Link>
+              <Link
                 className="transition-colors hover:text-black text-muted dark:text-muted-dark dark:hover:text-neutral-400 text-xs sm:text-sm"
                 href="/contact"
               >
                 Contact
-              </a>
+              </Link>
             </div>
             <div className="flex justify-center space-y-4 flex-col mt-4">
-              <a
+              <Link
                 className="transition-colors hover:text-black text-muted dark:text-muted-dark dark:hover:text-neutral-400 text-xs sm:text-sm"
                 href="#"
               >
                 Privacy Policy
-              </a>
-              <a
+              </Link>
+              <Link
                 className="transition-colors hover:text-black text-muted dark:text-muted-dark dark:hover:text-neutral-400 text-xs sm:text-sm"
                 href="#"
               >
                 Terms of Service
-              </a>
+              </Link>
             </div>
             <div className="flex justify-center space-y-4 flex-col mt-4">
-              <a
+              <Link
                 className="transition-colors hover:text-black text-muted dark:text-muted-dark dark:hover:text-neutral-400 text-xs sm:text-sm"
                 href="https://linkedin.com/in/manuarora28"
               >
                 LinkedIn
-              </a>
+              </Link>
             </div>
           </div>
         </div>

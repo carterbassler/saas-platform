@@ -1,7 +1,6 @@
 "use client";
 
 import { Sign } from "crypto";
-import { ModeToggle } from "./mode-toggle";
 import {
   SignInButton,
   SignUpButton,
@@ -12,13 +11,49 @@ import {
 // import Link from "next/link";
 import { Link } from "next-view-transitions";
 import { usePathname } from "next/navigation";
+import { useEffect } from "react";
+import { motion } from "framer-motion";
 
 export function Header() {
   const pathname = usePathname();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const showBar = document.getElementById("showBar");
+      if (showBar) {
+        if (window.scrollY > 0) {
+          showBar.classList.add("opacity-100");
+          showBar.classList.remove("opacity-0");
+        } else {
+          showBar.classList.add("opacity-0");
+          showBar.classList.remove("opacity-100");
+        }
+      }
+    };
+
+    // Call handleScroll immediately to set the initial state
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <nav className="max-w-7xl  fixed top-4  mx-auto inset-x-0 z-50 w-[95%] lg:w-full">
-      <div className="hidden lg:block w-full">
+      <motion.div
+        initial={{ opacity: 0, y: -40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, delay: 0.4 }}
+        className="hidden lg:block w-full"
+      >
         <div className="w-full flex relative justify-between px-4 py-2 rounded-full bg-transparent transition duration-200">
+          <div
+            id="showBar"
+            className="absolute inset-0 h-full w-full bg-neutral-100 dark:bg-neutral-800 pointer-events-none mask-image-gradient-to-b-white-transparent-white rounded-full opacity-0 transition-opacity duration-300"
+          ></div>
           <div className="flex flex-row gap-2 items-center">
             <Link
               className="font-normal flex space-x-2 items-center text-sm mr-4  text-black px-2 py-1  relative z-20"
@@ -29,46 +64,19 @@ export function Header() {
                 Insight Leads
               </span>
             </Link>
-            <div className="flex items-center gap-1.5">
-              <SignedIn>
-                <div className="flex flex-row gap-2 text-sm items-center">
-                  <a
-                    className={`${
-                      pathname == "/dashboard"
-                        ? "bg-gray-100"
-                        : "bg-transparent"
-                    } flex items-center justify-center text-sm leading-[110%] px-4 py-2 rounded-md hover:bg-[#F5F5F5] dark:hover:bg-neutral-800 hover:text-black dark:text-muted-dark bg-gray-100 dark:bg-neutral-800 text-black`}
-                  >
-                    <Link href="/dashboard">Dashboard</Link>
-                  </a>
-                  <a
-                    className={`${
-                      pathname == "/calls" ? "bg-gray-100" : "bg-transparent"
-                    } flex items-center justify-center text-sm leading-[110%] px-4 py-2 rounded-md hover:bg-[#F5F5F5] dark:hover:bg-neutral-800 hover:text-black dark:text-muted-dark bg-gray-100 dark:bg-neutral-800 text-black`}
-                  >
-                    <Link href="/calls">New Call</Link>
-                  </a>
-                  <a
-                    className={`${
-                      pathname == "/settings" ? "bg-gray-100" : "bg-transparent"
-                    } flex items-center justify-center text-sm leading-[110%] px-4 py-2 rounded-md hover:bg-[#F5F5F5] dark:hover:bg-neutral-800 hover:text-black dark:text-muted-dark bg-gray-100 dark:bg-neutral-800 text-black`}
-                  >
-                    <Link href="/settings">Settings</Link>
-                  </a>
-                </div>
-              </SignedIn>
+            <div className="flex items-center gap-1.5 z-10">
               <SignedOut>
                 <a
                   className={`${
                     pathname == "/pricing" ? "bg-gray-100" : "bg-transparent"
-                  } flex items-center justify-center text-sm leading-[110%] px-4 py-2 rounded-md hover:bg-[#F5F5F5] dark:hover:bg-neutral-800 hover:text-black dark:text-muted-dark bg-gray-100 dark:bg-neutral-800 text-black`}
+                  } flex items-center justify-center text-sm leading-[110%] px-4 py-2 rounded-md hover:bg-[#F5F5F5] dark:hover:bg-neutral-800 hover:text-black dark:text-muted-dark bg-gray-100 dark:bg-neutral-800 text-muted`}
                 >
                   <Link href="/pricing">Pricing</Link>
                 </a>
                 <a
                   className={`${
                     pathname == "/contact" ? "bg-gray-100" : "bg-transparent"
-                  } flex items-center justify-center text-sm leading-[110%] px-4 py-2 rounded-md hover:bg-[#F5F5F5] dark:hover:bg-neutral-800 hover:text-black dark:text-muted-dark bg-gray-100 dark:bg-neutral-800 text-black`}
+                  } flex items-center justify-center text-sm leading-[110%] px-4 py-2 rounded-md hover:bg-[#F5F5F5] dark:hover:bg-neutral-800 hover:text-black dark:text-muted-dark bg-gray-100 dark:bg-neutral-800 text-muted`}
                 >
                   <Link href="/contact">Contact</Link>
                 </a>
@@ -90,7 +98,7 @@ export function Header() {
             </SignedOut>
           </div>
         </div>
-      </div>
+      </motion.div>
       <div className="flex h-full w-full items-center lg:hidden">
         <div className="flex justify-between bg-white dark:bg-neutral-900 items-center w-full rounded-full px-2.5 py-1.5 transition duration-200">
           <a
@@ -117,76 +125,5 @@ export function Header() {
         </div>
       </div>
     </nav>
-    // <div className="">
-    //   <div className="h-20 container flex justify-between items-center">
-    //     <div className="flex flex-row gap-4 items-center">
-    //       <Link href="/">
-    //         <h1 className="font-bold">Insight Leads</h1>
-    //       </Link>
-    //       <div className="flex items-center">
-    // <SignedIn>
-    //   <div className="flex flex-row gap-2 text-sm items-center">
-    //     <a
-    //       className={`${
-    //         pathname == "/dashboard" ? "bg-gray-100" : "bg-transparent"
-    //       } rounded-lg hover:bg-gray-100 py-2 px-3 transition ease-in-out`}
-    //     >
-    //       <Link href="/dashboard">Dashboard</Link>
-    //     </a>
-    //     <a
-    //       className={`${
-    //         pathname == "/calls" ? "bg-gray-100" : "bg-transparent"
-    //       } rounded-lg hover:bg-gray-100 py-2 px-3 transition ease-in-out`}
-    //     >
-    //       <Link href="/calls">New Call</Link>
-    //     </a>
-    //     <a
-    //       className={`${
-    //         pathname == "/settings" ? "bg-gray-100" : "bg-transparent"
-    //       } rounded-lg hover:bg-gray-100 py-2 px-3 transition ease-in-out`}
-    //     >
-    //       <Link href="/settings">Settings</Link>
-    //     </a>
-    //   </div>
-    // </SignedIn>
-    //         <SignedOut>
-    //           <div className="flex flex-row gap-2 text-sm items-center">
-    //             <a
-    //               className={`${
-    //                 pathname == "/pricing" ? "bg-gray-100" : "bg-transparent"
-    //               } rounded-lg hover:bg-gray-100 py-2 px-3 transition ease-in-out`}
-    //             >
-    //               <Link href="/pricing">Pricing</Link>
-    //             </a>
-    //             <a
-    //               className={`${
-    //                 pathname == "/contact" ? "bg-gray-100" : "bg-transparent"
-    //               } rounded-lg hover:bg-gray-100 py-2 px-3 transition ease-in-out`}
-    //             >
-    //               <Link href="/contact">Contact</Link>
-    //             </a>
-    //           </div>
-    //         </SignedOut>
-    //       </div>
-    //     </div>
-
-    //     <div className="flex gap-2 items-center">
-    //       <ModeToggle />
-    //       <SignedIn>
-    //         <UserButton />
-    //       </SignedIn>
-    //       <SignedOut>
-    //         <div className="text-sm rounded-2xl hover:bg-gray-100 py-2 px-3 transition ease-in-out">
-    //           <SignInButton>
-    //             Login
-    //           </SignInButton>
-    //         </div>
-    //         <div className="bg-black rounded-2xl py-2 px-3 text-sm text-white">
-    //           <SignUpButton />
-    //         </div>
-    //       </SignedOut>
-    //     </div>
-    //   </div>
-    // </div>
   );
 }

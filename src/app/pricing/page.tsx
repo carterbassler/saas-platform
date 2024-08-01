@@ -1,5 +1,6 @@
 import React from "react";
 import PricingCard from "./PricingCard";
+import HighlightedPricingCard from "./HighlightedPricingCard";
 
 type Props = {};
 
@@ -17,8 +18,12 @@ function Pricing({}: Props) {
             started instantly.
           </h2>
         </div>
-        <div className="flex">
-          <PricingCard />
+        <div className="relative">
+          <div className="mx-auto mt-4 md:mt-10 grid relative z-20 grid-cols-1 gap-4 items-center  md:grid-cols-2 xl:grid-cols-3">
+            <PricingCard />
+            <HighlightedPricingCard />
+            <PricingCard />
+          </div>
         </div>
       </div>
     </div>
